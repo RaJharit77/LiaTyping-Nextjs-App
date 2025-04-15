@@ -1,9 +1,21 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User, DefaultSession } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
+
+declare module "next-auth" {
+    interface User {
+        role?: string;
+    }
+    interface Session {
+        user: {
+            id: string;
+            role?: string;
+        } & DefaultSession["user"];
+    }
+}
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(db),
@@ -46,9 +58,9 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async session({ session, token }) {
+        async session({ session, token }: { session: any; token: { sub?: string; role?: string } }) {
             if (session.user) {
-                session.user.id = token.sub;
+                session.user.id = token.sub ?? "";
                 session.user.role = token.role; // Exemple de champ supplémentaire
             }
             return session;
