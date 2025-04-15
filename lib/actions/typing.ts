@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { auth } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 const resultSchema = z.object({
@@ -13,10 +13,9 @@ const resultSchema = z.object({
     duration: z.number().min(0),
 });
 
-export async function saveTypingResult(data: z.infer<typeof resultSchema>, request: Request) {
+export async function saveTypingResult(data: z.infer<typeof resultSchema>) {
     try {
-        const response = await auth.handler(request);
-        const session = await response.json();
+        const session = await getAuthSession();
         if (!session?.user?.id) return;
 
         const validatedData = resultSchema.parse(data);

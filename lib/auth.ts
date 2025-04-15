@@ -1,9 +1,8 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, getServerSession } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/lib/db";
-import { betterAuth, Logger } from "better-auth";
 import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
@@ -21,7 +20,7 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error("Email et mot de passe requis");
+                    return null;
                 }
 
                 const user = await db.user.findUnique({
@@ -29,13 +28,13 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (!user || !user.password) {
-                    throw new Error("Utilisateur non trouvé");
+                    return null;
                 }
 
                 const isValid = await bcrypt.compare(credentials.password, user.password);
 
                 if (!isValid) {
-                    throw new Error("Mot de passe incorrect");
+                    return null;
                 }
 
                 return {
@@ -48,8 +47,8 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async session({ session, token }) {
-            if (session.user && token.sub) {
-                session.user.id = token.sub;
+            if (session.user) {
+                session.user.id = token.sub ?? "";
             }
             return session;
         },
@@ -68,11 +67,8 @@ export const authOptions: NextAuthOptions = {
         signIn: "/login",
         error: "/login",
     },
-    secret: process.env.NEXTAUTH_SECRET,
-    debug: process.env.NODE_ENV === "development",
+    secret: process.env.NEXTAUTH_SECRET!,
 };
 
-export const auth = betterAuth({
-    ...authOptions,
-    logger: authOptions.logger as Logger,
-});
+export const getAuthSession = () => getServerSession(authOptions);
+export default authOptions;
