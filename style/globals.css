@@ -1,4 +1,51 @@
 @import "tailwindcss";
+/*@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");*/
+/*@import "tailwindcss/typography";
+@import "tailwindcss/forms";
+@import "tailwindcss/line-clamp";
+@import "tailwindcss/aspect-ratio";*/
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.hover\:neon-effect:hover {
+  animation: neon-pulse 1.5s infinite;
+  text-shadow: 0 0 5px currentColor;
+}
+
+@layer utilities {
+  .shadow-neon {
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #ef4444;
+  }
+  .text-shadow-neon {
+    text-shadow: 0 0 8px #3b82f6, 0 0 16px #ef4444;
+  }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.hover-neon-effect:hover {
+  animation: neon-pulse 1.5s infinite;
+}
+
+@layer utilities {
+  .hover-neon {
+    transition: all 0.3s ease;
+  }
+  
+  .hover-neon:hover {
+    text-shadow: 0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 20px #ef4444, 0 0 40px #ef4444;
+  }
+
+  .shadow-neon {
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #ef4444;
+  }
+}
 
 :root {
   --background: #ffffff;
@@ -22,5 +69,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Poppins, Arial, Helvetica, sans-serif;
 }
