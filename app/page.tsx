@@ -20,7 +20,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
       </div>
 
-      {/* Section de bienvenue centrée */}
       <section className="relative z-10 h-screen flex flex-col items-center justify-center text-center">
         <div className="max-w-2xl mx-auto px-4 space-y-6">
           <div className="space-y-4">
@@ -45,10 +44,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Nouvelles sections sur le typing */}
       <div className="container mx-auto px-4 py-16 space-y-24">
 
-        {/* Section 1 - Pourquoi améliorer sa frappe */}
         <section className="flex flex-col md:flex-row items-center gap-12">
           <div className="md:w-1/2">
             <h2 className="text-3xl font-bold mb-4">Pourquoi améliorer sa vitesse de frappe ?</h2>
@@ -65,7 +62,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 2 - Statistiques */}
         <section className="flex flex-col md:flex-row-reverse items-center gap-12">
           <div className="md:w-1/2">
             <h2 className="text-3xl font-bold mb-4">Les statistiques clés</h2>
@@ -87,7 +83,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 3 - Conseils */}
         <section className="flex flex-col items-center text-center">
           <h2 className="text-3xl font-bold mb-8">Nos conseils pour progresser</h2>
           <div className="grid md:grid-cols-3 gap-8 w-full">
