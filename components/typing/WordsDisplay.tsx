@@ -1,39 +1,23 @@
 "use client";
 
-import { useTypingStore } from "@/store/typingStore";
+import { useTypingGameStore } from "@/store/typingGameStore";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
 
-export function Words() {
-    const { words, currentWordIndex, typedChars, isCompleted } = useTypingStore();
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            gsap.from(containerRef.current, {
-                opacity: 0,
-                y: 20,
-                duration: 0.5,
-            });
-        }
-    }, []);
+export function WordsDisplay() {
+    const { words, currentWordIndex, typedChars, isCompleted } = useTypingGameStore();
 
     return (
-        <div
-            ref={containerRef}
-            className="p-4 md:p-6 bg-card rounded-lg shadow-md border"
-        >
-            <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Texte à taper</h2>
-            <div className="flex flex-wrap gap-1 md:gap-2">
+        <div className="p-6 bg-card rounded-lg shadow-md border">
+            <h2 className="text-xl font-semibold mb-4">Texte à taper</h2>
+            <div className="flex flex-wrap gap-2">
                 {words.map((word, wordIndex) => (
-                    <div 
+                    <div
                         key={wordIndex}
                         className={cn(
-                            "text-base md:text-lg",
+                            "text-lg",
                             wordIndex < currentWordIndex ? "text-green-500" :
-                            wordIndex === currentWordIndex ? "text-blue-500" :
-                            "text-muted-foreground",
+                                wordIndex === currentWordIndex ? "text-blue-500" :
+                                    "text-muted-foreground",
                             isCompleted && wordIndex >= currentWordIndex ? "text-gray-400" : ""
                         )}
                     >
@@ -41,8 +25,7 @@ export function Words() {
                             const typedChar = typedChars[wordIndex]?.[charIndex];
                             const isCurrent = wordIndex === currentWordIndex;
                             const isTyped = typedChar !== undefined;
-                            const isCorrect = typedChar?.correct;
-
+                            const isCorrect = typedChar === char;
                             return (
                                 <span
                                     key={charIndex}

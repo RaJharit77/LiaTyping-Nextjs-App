@@ -35,7 +35,7 @@ export default function Home() {
                 size="default"
                 className="text-lg font-bold bg-gradient-to-r from-blue-500 to-red-500 text-white
                           hover:from-blue-400 hover:to-red-400 hover:shadow-neon transition-all duration-300
-                          hover:shadow-[0_0_15px_#3b82f6,0_0_30px_#ef4444] rounded-xl px-8 py-6"
+                          hover:shadow-[0_0_15px_#3b82f6,0_0_30px_#ef4444] rounded-xl px-8 py-6 cursor-pointer"
               >
                 Commencer le test
               </Button>

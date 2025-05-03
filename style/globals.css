@@ -47,6 +47,23 @@
   }
 }
 
+.text-shadow-neon {
+  text-shadow: 0 0 5px #3b82f6, 0 0 10px #ef4444;
+}
+
+/*@keyframes neon-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #ef4444;
+  }
+  50% {
+    box-shadow: 0 0 15px #3b82f6, 0 0 30px #ef4444;
+  }
+}
+
+.hover::shadow-neon:hover {
+  animation: neon-pulse 1.5s infinite ease-in-out;
+}*/
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

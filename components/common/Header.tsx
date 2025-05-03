@@ -1,23 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { ModeToggle } from "./ModeToggle";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import GameModeLink from "./components/GameModeLink";
+import MobileGameModeLink from "./components/MobileGameModeLink";
+import MobileNavLink from "./components/MobileNavLink";
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 export default function Header() {
     const { data: session } = useSession();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setMobileMenuOpen(false);
+                setOpenSubMenu(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const toggleSubMenu = (menu: string) => {
+        setOpenSubMenu(openSubMenu === menu ? null : menu);
+    };
 
     return (
-        <header className="border-b sticky">
-            <div className="container flex h-20 items-center justify-between">
-                <Link href="/" className="flex items-center gap-3">
+        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+            <div className="container flex h-16 items-center justify-between px-4">
+                <Link href="/" className="flex items-center gap-2 group">
                     <Image
                         src="/img/logo.png"
                         alt="LiaTyping Logo"
-                        width={60}
-                        height={60}
+                        width={40}
+                        height={40}
                         className="rounded-full"
                     />
                     <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-500
@@ -27,38 +49,122 @@ export default function Header() {
                     </span>
                 </Link>
 
-                <div className="flex items-center gap-6">
-                    <nav className="flex items-center gap-6">
-                        <Link href="/" className="font-medium hover:text-blue-500 transition-colors">
-                            Accueil
-                        </Link>
-                        <Link href="/typing" className="font-medium hover:text-purple-500 transition-colors">
-                            Typing
-                        </Link>
-                        <Link href="/about" className="font-medium hover:text-red-500 transition-colors">
-                            À propos
-                        </Link>
-                    </nav>
+                <nav className="hidden md:flex items-center gap-6">
+                    <Link href="/" className="font-medium px-3 py-2 rounded-md transition-all duration-300
+                    hover:text-blue-500 hover:shadow-[0_0_10px_#3b82f6]">
+                        Accueil
+                    </Link>
 
-                    <div className="flex items-center gap-4 ml-4">
-                        <ModeToggle />
-                        {session ? (
-                            <Link href="/dashboard">
-                                <Button variant="outline" className="bg-transparent">
-                                    Dashboard
-                                </Button>
-                            </Link>
-                        ) : (
-                            <Link href="/auth/login">
-                                <Button className="bg-gradient-to-r from-blue-500 to-red-500 text-white
-                                hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300">
-                                    Se connecter
-                                </Button>
-                            </Link>
-                        )}
+                    <div className="relative group">
+                        <button
+                            onClick={() => toggleSubMenu('typing')}
+                            className="font-medium px-3 py-2 rounded-md transition-all duration-300
+                hover:text-purple-500 hover:shadow-[0_0_10px_#a855f7] flex items-center gap-1"
+                        >
+                            Typing
+                            <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
+                        </button>
+                        <div className="absolute hidden group-hover:block pt-2 w-64">
+                            <div className="bg-white dark:bg-gray-900 border rounded-lg shadow-lg p-2 space-y-1">
+                                <GameModeLink href="/typing" title="Test de vitesse" />
+                                <GameModeLink href="/typing/mode-classic" title="Classique" />
+                                <GameModeLink href="/typing/mode-timed" title="Temps limité" />
+                                <GameModeLink href="/typing/mode-zen" title="Zen" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <Link href="/about" className="font-medium px-3 py-2 rounded-md transition-all duration-300
+                    hover:text-red-500 hover:shadow-[0_0_10px_#ef4444]">
+                        À propos
+                    </Link>
+                </nav>
+
+                <div className="hidden md:flex items-center gap-2">
+                    {session ? (
+                        <Link href="/dashboard">
+                            <Button variant="outline" size="default">
+                                Dashboard
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Link href="/auth/login">
+                            <Button size="default" className="bg-gradient-to-r from-blue-500 to-red-500 text-white
+                hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300">
+                                Se connecter
+                            </Button>
+                        </Link>
+                    )}
+                </div>
+
+                <button
+                    className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                >
+                    {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </button>
+            </div>
+
+            {mobileMenuOpen && (
+                <div
+                    ref={menuRef}
+                    className="md:hidden absolute top-16 left-0 right-0 bg-white dark:bg-gray-900 border-b shadow-lg animate-in fade-in-50"
+                >
+                    <div className="container px-4 py-3 space-y-4">
+                        <MobileNavLink href="/" onClick={() => setMobileMenuOpen(false)}>
+                            Accueil
+                        </MobileNavLink>
+
+                        <div>
+                            <button
+                                onClick={() => toggleSubMenu('typing')}
+                                className="w-full flex justify-between items-center py-2 px-3 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                            >
+                                <span>Typing</span>
+                                <ChevronDown className={`h-4 w-4 transition-transform ${openSubMenu === 'typing' ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {openSubMenu === 'typing' && (
+                                <div className="pl-4 mt-1 space-y-2">
+                                    <MobileGameModeLink href="/typing/mode-classic" onClick={() => setMobileMenuOpen(false)}>
+                                        Mode Classique
+                                    </MobileGameModeLink>
+                                    <MobileGameModeLink href="/typing/mode-timed" onClick={() => setMobileMenuOpen(false)}>
+                                        Temps limité (1 min)
+                                    </MobileGameModeLink>
+                                    <MobileGameModeLink href="/typing/mode-zen" onClick={() => setMobileMenuOpen(false)}>
+                                        Mode Zen
+                                    </MobileGameModeLink>
+                                    <MobileGameModeLink href="/typing/mode-random" onClick={() => setMobileMenuOpen(false)}>
+                                        Mots aléatoires
+                                    </MobileGameModeLink>
+                                </div>
+                            )}
+                        </div>
+
+                        <MobileNavLink href="/about" onClick={() => setMobileMenuOpen(false)}>
+                            À propos
+                        </MobileNavLink>
+
+                        <div className="pt-4 border-t border-gray-200 dark:border-gray-800">
+                            {session ? (
+                                <Link href="/dashboard" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button variant="outline" className="w-full">
+                                        Dashboard
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <Link href="/auth/login" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button className="w-full bg-gradient-to-r from-blue-500 to-red-500 text-white
+                    hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300">
+                                        Se connecter
+                                    </Button>
+                                </Link>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </header>
     );
 }
