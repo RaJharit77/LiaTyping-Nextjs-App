@@ -51,6 +51,15 @@
   text-shadow: 0 0 5px #3b82f6, 0 0 10px #ef4444;
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
 /*@keyframes neon-pulse {
   0%, 100% {
     box-shadow: 0 0 10px #3b82f6, 0 0 20px #ef4444;

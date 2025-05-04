@@ -32,7 +32,7 @@ export default function Header() {
     };
 
     return (
-        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <header className="sticky bg-black top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
             <div className="container flex h-16 items-center justify-between px-4">
                 <Link href="/" className="flex items-center gap-2 group">
                     <Image
@@ -108,7 +108,7 @@ export default function Header() {
             {mobileMenuOpen && (
                 <div
                     ref={menuRef}
-                    className="md:hidden absolute top-16 left-0 right-0 bg-white dark:bg-gray-900 border-b shadow-lg animate-in fade-in-50"
+                    className="md:hidden absolute top-16 left-0 right-0 bg-white dark:bg-black border-b shadow-lg animate-in fade-in-50"
                 >
                     <div className="container px-4 py-3 space-y-4">
                         <MobileNavLink href="/" onClick={() => setMobileMenuOpen(false)}>

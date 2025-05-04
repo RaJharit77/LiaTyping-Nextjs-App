@@ -52,7 +52,6 @@ export function TypingArea() {
         setWpm(wpm);
         setAccuracy(accuracy);
 
-        // Save results to database
         saveTypingResult({
             wpm,
             accuracy,

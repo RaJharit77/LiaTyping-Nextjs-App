@@ -22,19 +22,18 @@ export function Words() {
     return (
         <div
             ref={containerRef}
-            className="p-4 md:p-6 bg-card rounded-lg shadow-md border"
+            className="p-6 bg-black rounded-xl border border-gray-100 shadow-lg"
         >
-            <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Texte à taper</h2>
-            <div className="flex flex-wrap gap-1 md:gap-2">
+            <div className="flex flex-wrap gap-2 justify-center">
                 {words.map((word, wordIndex) => (
                     <div 
                         key={wordIndex}
                         className={cn(
-                            "text-base md:text-lg",
-                            wordIndex < currentWordIndex ? "text-green-500" :
-                            wordIndex === currentWordIndex ? "text-blue-500" :
-                            "text-muted-foreground",
-                            isCompleted && wordIndex >= currentWordIndex ? "text-gray-400" : ""
+                            "text-lg",
+                            wordIndex < currentWordIndex ? "text-green-400" :
+                            wordIndex === currentWordIndex ? "text-blue-400" :
+                            "text-gray-500",
+                            isCompleted && wordIndex >= currentWordIndex ? "text-gray-600" : ""
                         )}
                     >
                         {word.split("").map((char, charIndex) => {
@@ -48,8 +47,8 @@ export function Words() {
                                     key={charIndex}
                                     className={cn(
                                         isCurrent && isTyped && "underline",
-                                        isTyped && (isCorrect ? "text-green-500" : "text-red-500"),
-                                        !isTyped && isCurrent && "text-blue-500"
+                                        isTyped && (isCorrect ? "text-green-400" : "text-red-400"),
+                                        !isTyped && isCurrent && "text-blue-400"
                                     )}
                                 >
                                     {char}
