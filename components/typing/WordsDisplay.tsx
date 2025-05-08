@@ -8,7 +8,6 @@ export function WordsDisplay() {
 
     return (
         <div className="p-6 bg-card rounded-lg shadow-md border">
-            <h2 className="text-xl font-semibold mb-4">Texte à taper</h2>
             <div className="flex flex-wrap gap-2">
                 {words.map((word, wordIndex) => (
                     <div

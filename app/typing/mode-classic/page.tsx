@@ -14,7 +14,7 @@ export default function ClassicModePage() {
     }, [setWords, setMode]);
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 max-w-6xl">
             <TypingGame
                 title="Mode Classique"
                 description="Tapez le texte jusqu'à la fin sans limite de temps"

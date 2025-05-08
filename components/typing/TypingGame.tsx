@@ -28,7 +28,7 @@ export function TypingGame({
     }, [reset]);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 max-w-4xl mx-auto">
             <div className="text-center">
                 <h1 className="text-3xl font-bold">{title}</h1>
                 <p className="text-muted-foreground">{description}</p>
@@ -37,9 +37,14 @@ export function TypingGame({
             {showTimer && <Timer />}
             {showStats && <TypingStats />}
 
-            <div className="grid gap-8 md:grid-cols-2">
-                <WordsDisplay />
-                <TypingArea />
+            <div className="flex flex-col gap-6">
+                <div className="bg-card p-6 rounded-lg border shadow-sm">
+                    <WordsDisplay />
+                </div>
+
+                <div className="bg-card p-6 rounded-lg border shadow-sm">
+                    <TypingArea />
+                </div>
             </div>
 
             {isCompleted && mode !== 'zen' && <Results />}
