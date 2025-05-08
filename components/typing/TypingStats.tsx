@@ -2,17 +2,23 @@
 
 import { useTypingStore } from "@/store/typingStore";
 import { useSession } from "next-auth/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import Loading from "@/components/common/Loading";
 
 export function TypingStats() {
-    const { wpm, accuracy, correctChars, incorrectChars, isCompleted } =
+    const { wpm, accuracy, correctChars, incorrectChars, isCompleted, isInitialized } =
         useTypingStore();
     const { data: session } = useSession();
     const statsRef = useRef<HTMLDivElement>(null);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        if (statsRef.current) {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (isMounted && statsRef.current && isInitialized) {
             gsap.from(statsRef.current.children, {
                 opacity: 0,
                 y: 20,
@@ -20,7 +26,19 @@ export function TypingStats() {
                 duration: 0.5,
             });
         }
-    }, []);
+    }, [isMounted, isInitialized]);
+
+    if (!isMounted || !isInitialized) {
+        return (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, i) => (
+                    <div key={i} className="bg-card p-4 rounded-lg border shadow-sm h-[84px] flex items-center justify-center">
+                        <Loading />
+                    </div>
+                ))}
+            </div>
+        );
+    }
 
     return (
         <div

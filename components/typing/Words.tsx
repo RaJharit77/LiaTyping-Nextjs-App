@@ -2,22 +2,36 @@
 
 import { useTypingStore } from "@/store/typingStore";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import Loading from "@/components/common/Loading";
 
 export function Words() {
-    const { words, currentWordIndex, typedChars, isCompleted } = useTypingStore();
+    const { words, currentWordIndex, typedChars, isCompleted, isInitialized, isLoading } = useTypingStore();
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        if (containerRef.current) {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (isMounted && containerRef.current && isInitialized) {
             gsap.from(containerRef.current, {
                 opacity: 0,
                 y: 20,
-                duration: 0.5,
+                duration: 0.7,
             });
         }
-    }, []);
+    }, [isMounted, isInitialized]);
+
+    if (!isMounted || isLoading || !isInitialized) {
+        return (
+            <div className="p-6 bg-black rounded-xl border border-gray-100 shadow-lg min-h-[200px] flex items-center justify-center">
+                <Loading />
+            </div>
+        );
+    }
 
     return (
         <div

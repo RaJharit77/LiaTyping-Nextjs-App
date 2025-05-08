@@ -4,10 +4,31 @@ import { TypingArea } from "@/components/typing/TypingArea";
 import { Words } from "@/components/typing/Words";
 import { TypingStats } from "@/components/typing/TypingStats";
 import { Results } from "@/components/typing/Results";
-import { Suspense } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Loading from "@/components/common/Loading";
+import { useTypingStore } from "@/store/typingStore";
 
 export default function TypingPage() {
+    const { initialize, reset, isInitialized, isLoading } = useTypingStore();
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        const init = async () => {
+            await reset();
+            await initialize();
+        };
+        init();
+    }, [initialize, reset]);
+
+    if (!isClient || isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-black">
+                <Loading />
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen flex flex-col bg-black text-white">
             <div className="container mx-auto px-4 py-4 flex-1 flex flex-col items-center justify-center max-w-5xl">
@@ -19,9 +40,7 @@ export default function TypingPage() {
                         </p>
                     </div>
 
-                    <Suspense fallback={<Loading />}>
-                        <TypingStats />
-                    </Suspense>
+                    <TypingStats />
 
                     <div className="grid grid-cols-1 gap-7 w-full">
                         <Words />

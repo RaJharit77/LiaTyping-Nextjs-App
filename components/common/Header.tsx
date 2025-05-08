@@ -65,8 +65,8 @@ export default function Header() {
                             <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
                         </button>
                         <div className="absolute hidden group-hover:block pt-2 w-64">
-                            <div className="bg-white dark:bg-gray-900 border rounded-lg shadow-lg p-2 space-y-1">
-                                <GameModeLink href="/typing" title="Test de vitesse" />
+                            <div className="bg-white dark:bg-black border rounded-lg shadow-lg p-2 space-y-1">
+                                <GameModeLink href="/typing/test-vitesse" title="Test de vitesse" />
                                 <GameModeLink href="/typing/mode-classic" title="Classique" />
                                 <GameModeLink href="/typing/mode-timed" title="Temps limité" />
                                 <GameModeLink href="/typing/mode-zen" title="Zen" />
@@ -126,6 +126,9 @@ export default function Header() {
 
                             {openSubMenu === 'typing' && (
                                 <div className="pl-4 mt-1 space-y-2">
+                                    <MobileGameModeLink href="/typing/test-vitesse" onClick={() => setMobileMenuOpen(false)}>
+                                        Test de Vitesse
+                                    </MobileGameModeLink>
                                     <MobileGameModeLink href="/typing/mode-classic" onClick={() => setMobileMenuOpen(false)}>
                                         Mode Classique
                                     </MobileGameModeLink>
@@ -134,9 +137,6 @@ export default function Header() {
                                     </MobileGameModeLink>
                                     <MobileGameModeLink href="/typing/mode-zen" onClick={() => setMobileMenuOpen(false)}>
                                         Mode Zen
-                                    </MobileGameModeLink>
-                                    <MobileGameModeLink href="/typing/mode-random" onClick={() => setMobileMenuOpen(false)}>
-                                        Mots aléatoires
                                     </MobileGameModeLink>
                                 </div>
                             )}

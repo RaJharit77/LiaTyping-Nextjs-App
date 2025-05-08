@@ -60,6 +60,30 @@
   display: none;  /* Chrome, Safari and Opera */
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { 
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to { 
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.5s ease-out forwards;
+}
+
 /*@keyframes neon-pulse {
   0%, 100% {
     box-shadow: 0 0 10px #3b82f6, 0 0 20px #ef4444;
