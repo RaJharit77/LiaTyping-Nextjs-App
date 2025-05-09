@@ -115,7 +115,7 @@ export function TypingArea() {
                 disabled={isCompleted}
                 className={cn(
                     "w-full p-4 text-lg border rounded-lg focus:outline-none focus:ring-2",
-                    isCompleted ? "bg-gray-100" : "bg-gray-900 text-white",
+                    isCompleted ? "bg-gray-950" : "bg-gray-900 text-white",
                 )}
                 placeholder={isCompleted ? "Test terminé" : "Commencez à taper..."}
             />

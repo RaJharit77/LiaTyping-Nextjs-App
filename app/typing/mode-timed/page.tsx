@@ -10,16 +10,17 @@ export default function TimedModePage() {
 
     useEffect(() => {
         setMode('timed');
-        setTimeLimit(60); 
-        setWords(generateRandomWords(100)); 
+        setTimeLimit(60); // Valeur par défaut
+        setWords(generateRandomWords(100));
     }, [setWords, setMode, setTimeLimit]);
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 max-w-6xl">
             <TypingGame
-                title="Mode Temps Limité (1 minute)"
-                description="Tapez autant de mots que possible en 1 minute"
+                title="Mode Temps Limité"
+                description="Tapez autant de mots que possible dans le temps imparti"
                 showTimer={true}
+                showTimeSelector={true}
             />
         </div>
     );

@@ -5,6 +5,7 @@ import { WordsDisplay } from "./WordsDisplay";
 import { TypingStats } from "./TypingStats";
 import { Results } from "./Results";
 import { Timer } from "./Timer";
+import { TimeSelector } from "./TimeSelector";
 import { useTypingGameStore } from "@/store/typingGameStore";
 import { useEffect } from "react";
 
@@ -13,13 +14,15 @@ interface TypingGameProps {
     description: string;
     showStats?: boolean;
     showTimer?: boolean;
+    showTimeSelector?: boolean;
 }
 
 export function TypingGame({
     title,
     description,
     showStats = true,
-    showTimer = false
+    showTimer = false,
+    showTimeSelector = false
 }: TypingGameProps) {
     const { isCompleted, reset, mode } = useTypingGameStore();
 
@@ -34,6 +37,7 @@ export function TypingGame({
                 <p className="text-muted-foreground">{description}</p>
             </div>
 
+            {showTimeSelector && <TimeSelector />}
             {showTimer && <Timer />}
             {showStats && <TypingStats />}
 

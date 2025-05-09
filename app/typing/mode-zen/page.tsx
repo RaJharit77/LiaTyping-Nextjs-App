@@ -14,7 +14,7 @@ export default function ZenModePage() {
     }, [setWords, setMode]);
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 max-w-6xl">
             <TypingGame
                 title="Mode Zen"
                 description="Tapez sans pression, aucun score ne sera enregistré"

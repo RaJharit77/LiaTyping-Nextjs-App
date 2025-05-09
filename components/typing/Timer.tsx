@@ -8,6 +8,10 @@ export function Timer() {
     const [timeLeft, setTimeLeft] = useState(timeLimit);
 
     useEffect(() => {
+        setTimeLeft(timeLimit);
+    }, [timeLimit]);
+
+    useEffect(() => {
         if (!timeLimit || isCompleted || !startTime) return;
 
         const interval = setInterval(() => {
@@ -28,7 +32,7 @@ export function Timer() {
     if (!timeLimit) return null;
 
     return (
-        <div className="text-center">
+        <div className="text-center mb-4">
             <div className="text-4xl font-bold">
                 {Math.floor((timeLeft ?? 0) / 60)}:{((timeLeft ?? 0) % 60).toString().padStart(2, '0')}
             </div>
