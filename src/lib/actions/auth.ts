@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import bcrypt from "bcryptjs";
-import { db } from "@/lib/db";
+import { db } from "../db";
 import { signIn } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import AuthError  from "next-auth";

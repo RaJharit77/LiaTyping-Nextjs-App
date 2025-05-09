@@ -3,14 +3,14 @@
 import { TypingGame } from "@/components/typing/TypingGame";
 import { useTypingGameStore } from "@/store/typingGameStore";
 import { useEffect } from "react";
-import { generateRandomWords } from "@/lib/wordsGenerator";
+import { generateRandomWords } from "@/src/lib/wordsGenerator";
 
 export default function ZenModePage() {
     const { setWords, setMode } = useTypingGameStore();
 
     useEffect(() => {
         setMode('zen');
-        setWords(generateRandomWords(200));
+        setWords(generateRandomWords(100));
     }, [setWords, setMode]);
 
     return (

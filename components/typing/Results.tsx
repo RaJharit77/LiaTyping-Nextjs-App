@@ -2,7 +2,7 @@
 
 import { useTypingStore } from "@/store/typingStore";
 import { Button } from "../ui/button";
-import { saveTypingResult } from "@/lib/actions/typing";
+import { saveTypingResult } from "@/src/lib/actions/typing";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 

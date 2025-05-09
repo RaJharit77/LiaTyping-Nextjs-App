@@ -8,6 +8,7 @@ import { Timer } from "./Timer";
 import { TimeSelector } from "./TimeSelector";
 import { useTypingGameStore } from "@/store/typingGameStore";
 import { useEffect } from "react";
+import { cn } from "@/src/lib/utils";
 
 interface TypingGameProps {
     title: string;
@@ -42,7 +43,10 @@ export function TypingGame({
             {showStats && <TypingStats />}
 
             <div className="flex flex-col gap-6">
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
+                <div className={cn(
+                    "bg-card p-6 rounded-lg border shadow-sm",
+                    mode === 'zen' ? "min-h-[150px]" : ""
+                )}>
                     <WordsDisplay />
                 </div>
 

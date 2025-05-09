@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTypingStore } from "@/store/typingStore";
-import { cn } from "@/lib/utils";
+import { cn } from "../../src/lib/utils";
 import { gsap } from "gsap";
-import { saveTypingResult } from "@/lib/actions/typing";
+import { saveTypingResult } from "../../src/lib/actions/typing";
 
 export function TypingArea() {
     const [input, setInput] = useState("");

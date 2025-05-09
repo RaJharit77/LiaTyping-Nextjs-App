@@ -1,8 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import { db } from "@/lib/db";
-import { getAuthSession } from "@/lib/auth";
+import { db } from"@/src/lib/db";
+import { getAuthSession } from "@/src/lib/auth";
 import { revalidatePath } from "next/cache";
 
 const resultSchema = z.object({

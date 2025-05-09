@@ -3,7 +3,7 @@
 import { TypingGame } from "@/components/typing/TypingGame";
 import { useTypingGameStore } from "@/store/typingGameStore";
 import { useEffect } from "react";
-import { generateRandomWords } from "@/lib/wordsGenerator";
+import { generateRandomWords } from "@/src/lib/wordsGenerator";
 
 export default function TimedModePage() {
     const { setWords, setMode, setTimeLimit } = useTypingGameStore();

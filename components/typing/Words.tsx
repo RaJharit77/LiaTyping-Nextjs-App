@@ -1,7 +1,7 @@
 "use client";
 
 import { useTypingStore } from "@/store/typingStore";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Loading from "@/components/common/Loading";

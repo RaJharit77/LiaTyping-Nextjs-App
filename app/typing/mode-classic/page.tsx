@@ -3,7 +3,7 @@
 import { TypingGame } from "@/components/typing/TypingGame";
 import { useTypingGameStore } from "@/store/typingGameStore";
 import { useEffect } from "react";
-import { generateRandomWords } from "@/lib/wordsGenerator";
+import { generateRandomWords } from "@/src/lib/wordsGenerator";
 
 export default function ClassicModePage() {
     const { setWords, setMode } = useTypingGameStore();
