@@ -9,6 +9,7 @@ import MobileGameModeLink from "./components/MobileGameModeLink";
 import MobileNavLink from "./components/MobileNavLink";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { FaUser } from "react-icons/fa";
 
 export default function Header() {
     const { data: session } = useSession();
@@ -89,9 +90,9 @@ export default function Header() {
                         </Link>
                     ) : (
                         <Link href="/auth/login">
-                            <Button size="default" className="bg-gradient-to-r from-blue-500 to-red-500 text-white
-                hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300">
-                                Se connecter
+                            <Button size="default" className="bg-gradient-to-r from-blue-500 to-red-500 text-white hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300 flex items-center gap-2 text-center">
+                                <FaUser />
+                                <span>Se connecter</span>
                             </Button>
                         </Link>
                     )}
@@ -155,9 +156,9 @@ export default function Header() {
                                 </Link>
                             ) : (
                                 <Link href="/auth/login" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                                    <Button className="w-full bg-gradient-to-r from-blue-500 to-red-500 text-white
-                    hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300">
-                                        Se connecter
+                                    <Button className="w-full bg-gradient-to-r from-blue-500 to-red-500 text-white hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300 flex items-center gap-2 text-center">
+                                        <FaUser />
+                                        <span>Se connecter</span>
                                     </Button>
                                 </Link>
                             )}
