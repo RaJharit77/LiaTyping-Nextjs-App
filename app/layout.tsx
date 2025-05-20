@@ -11,7 +11,8 @@ const poppins = Poppins({
   weight: ["400", "700"],
 });
 
-export const metadata = {
+export let metadata: { title: string; description: string; keywords: string; icons: { icon: string }; type: string };
+metadata = {
   title: "LiaTyping App",
   description: "LiaTyping - Améliorez votre vitesse de frappe avec LiaTyping",
   keywords: "LiaTyping, vitesse de frappe, dactylographie, test de vitesse de frappe, jeu de dactylographie",
