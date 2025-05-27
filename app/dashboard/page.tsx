@@ -1,5 +1,5 @@
-import { getRecentResults } from "@/lib/actions/typing";
-import { getAuthSession } from "@/lib/auth";
+import { getRecentResults } from "@/src/lib/actions/typing";
+import { getAuthSession } from "@/src/lib/auth";
 import { TypingChart } from "@/components/typing/TypingChart";
 import { TypingHistory } from "@/components/typing/TypingHistory";
 
