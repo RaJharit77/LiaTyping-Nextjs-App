@@ -8,8 +8,6 @@ import { saveTypingResult } from "@/src/lib/actions/typing";
 
 export function TypingArea() {
     const [input, setInput] = useState("");
-    const [startTime, setStartTime] = useState<number | null>(null);
-    const [endTime, setEndTime] = useState<number | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const {
@@ -24,6 +22,12 @@ export function TypingArea() {
         setAccuracy,
         setIsCompleted,
         isCompleted,
+        startTime,
+        setStartTime,
+        endTime,
+        setEndTime,
+        typedChars,
+        setTypedChars,
     } = useTypingStore();
 
     useEffect(() => {
@@ -63,23 +67,45 @@ export function TypingArea() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
+        const currentWord = words[currentWordIndex];
 
         if (!startTime) {
             setStartTime(Date.now());
         }
 
-        if (value.endsWith(" ")) {
-            const currentWord = words[currentWordIndex];
-            const typedWord = value.trim();
+        // Mise à jour en temps réel des caractères tapés
+        const newTypedChars = [...typedChars];
+        if (!newTypedChars[currentWordIndex]) {
+            newTypedChars[currentWordIndex] = [];
+        }
 
-            if (typedWord === currentWord) {
-                setCorrectChars(correctChars + typedWord.length);
-            } else {
-                setIncorrectChars(
-                    incorrectChars + Math.max(typedWord.length, currentWord.length)
-                );
+        // Vérification caractère par caractère
+        for (let i = 0; i < value.length; i++) {
+            const isCorrect = currentWord[i] === value[i];
+            newTypedChars[currentWordIndex][i] = {
+                char: value[i],
+                correct: isCorrect
+            };
+        }
+
+        setTypedChars(newTypedChars);
+
+        if (value.endsWith(" ")) {
+            // Vérification du mot complet
+            const typedWord = value.trim();
+            let wordCorrectChars = 0;
+            let wordIncorrectChars = 0;
+
+            for (let i = 0; i < Math.max(typedWord.length, currentWord.length); i++) {
+                if (i < typedWord.length && i < currentWord.length && typedWord[i] === currentWord[i]) {
+                    wordCorrectChars++;
+                } else {
+                    wordIncorrectChars++;
+                }
             }
 
+            setCorrectChars(correctChars + wordCorrectChars);
+            setIncorrectChars(incorrectChars + wordIncorrectChars);
             setCurrentWordIndex(currentWordIndex + 1);
             setInput("");
         } else {
@@ -97,6 +123,7 @@ export function TypingArea() {
         setIsCompleted(false);
         setStartTime(null);
         setEndTime(null);
+        setTypedChars([]);
 
         gsap.fromTo(
             inputRef.current,

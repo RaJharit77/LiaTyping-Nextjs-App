@@ -39,62 +39,38 @@ export function Words() {
             className="p-6 bg-black rounded-xl border border-gray-100 shadow-lg"
         >
             <div className="flex flex-wrap gap-2 justify-center">
-                {words.map((word, wordIndex) => {
-                    const currentTypedWord = typedChars[wordIndex] || [];
-                    const hasError = currentTypedWord.some((char, idx) => 
-                        idx < word.length && (!char || !char.correct)
-                    );
-                    const isWordFullyTyped = currentTypedWord.length >= word.length;
-                    const isWordCorrect = isWordFullyTyped && !hasError;
+                {words.map((word, wordIndex) => (
+                    <div 
+                        key={wordIndex}
+                        className={cn(
+                            "text-lg",
+                            wordIndex < currentWordIndex ? "text-green-400" :
+                            wordIndex === currentWordIndex ? "text-blue-400" :
+                            "text-gray-500",
+                            isCompleted && wordIndex >= currentWordIndex ? "text-gray-600" : ""
+                        )}
+                    >
+                        {word.split("").map((char, charIndex) => {
+                            const typedChar = typedChars[wordIndex]?.[charIndex];
+                            const isCurrent = wordIndex === currentWordIndex;
+                            const isTyped = typedChar !== undefined;
+                            const isCorrect = typedChar?.correct;
 
-                    return (
-                        <div 
-                            key={wordIndex}
-                            className={cn(
-                                "text-lg relative pb-1",
-                                {
-                                    'text-green-400': wordIndex < currentWordIndex || isWordCorrect,
-                                    'text-blue-400': wordIndex === currentWordIndex && !hasError && !isWordFullyTyped,
-                                    'text-red-400': wordIndex === currentWordIndex && hasError,
-                                    'text-gray-500': wordIndex > currentWordIndex,
-                                    'border-b-2 border-red-500': wordIndex === currentWordIndex && hasError,
-                                }
-                            )}
-                        >
-                            {word.split("").map((char, charIndex) => {
-                                const typedChar = currentTypedWord[charIndex];
-                                const isCurrentWord = wordIndex === currentWordIndex;
-                                const isCharTyped = typedChar !== undefined;
-                                const isCharCorrect = typedChar?.correct;
-
-                                let charColor = '';
-                                if (wordIndex < currentWordIndex || isWordCorrect) {
-                                    charColor = 'text-green-400';
-                                } else if (isCurrentWord) {
-                                    charColor = isCharTyped 
-                                        ? (isCharCorrect ? 'text-green-400' : 'text-red-400') 
-                                        : 'text-blue-400';
-                                } else {
-                                    charColor = 'text-gray-500';
-                                }
-
-                                return (
-                                    <span
-                                        key={charIndex}
-                                        className={cn(
-                                            {
-                                                'underline': isCurrentWord && isCharTyped,
-                                            },
-                                            charColor
-                                        )}
-                                    >
-                                        {char}
-                                    </span>
-                                );
-                            })}
-                        </div>
-                    );
-                })}
+                            return (
+                                <span
+                                    key={charIndex}
+                                    className={cn(
+                                        isCurrent && isTyped && "underline",
+                                        isTyped && (isCorrect ? "text-green-400" : "text-red-400"),
+                                        !isTyped && isCurrent && "text-blue-400"
+                                    )}
+                                >
+                                    {char}
+                                </span>
+                            );
+                        })}
+                    </div>
+                ))}
             </div>
         </div>
     );
