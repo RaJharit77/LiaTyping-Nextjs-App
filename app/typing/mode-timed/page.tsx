@@ -10,7 +10,7 @@ export default function TimedModePage() {
 
     useEffect(() => {
         setMode('timed');
-        setTimeLimit(60); // Valeur par défaut
+        setTimeLimit(60);
         setWords(generateRandomWords(100));
     }, [setWords, setMode, setTimeLimit]);
 
