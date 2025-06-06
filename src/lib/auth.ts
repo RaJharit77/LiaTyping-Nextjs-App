@@ -11,6 +11,14 @@ export const authOptions: NextAuthOptions = {
         GitHubProvider({
             clientId: process.env.GITHUB_CLIENT_ID!,
             clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+            profile(profile) {
+                return {
+                    id: profile.id.toString(),
+                    name: profile.name || profile.login,
+                    email: profile.email,
+                    image: profile.avatar_url,
+                };
+            },
         }),
         CredentialsProvider({
             name: "Credentials",
@@ -49,19 +57,27 @@ export const authOptions: NextAuthOptions = {
         async session({ session, token }) {
             if (session.user) {
                 session.user.id = token.sub ?? "";
+                session.user.name = token.name || session.user.name;
+                session.user.image = token.picture || session.user.image;
             }
             return session;
         },
         async jwt({ token, user }) {
             if (user) {
                 token.sub = user.id;
+                token.name = user.name;
+                token.picture = user.image;
             }
             return token;
+        },
+        async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+            if (url.startsWith("/dashboard")) return url;
+            return baseUrl + "/dashboard";
         },
     },
     session: {
         strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60, // 30 jours
+        maxAge: 30 * 24 * 60 * 60,
     },
     pages: {
         signIn: "/login",

@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import GameModeLink from "./components/GameModeLink";
 import MobileGameModeLink from "./components/MobileGameModeLink";
 import MobileNavLink from "./components/MobileNavLink";
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, LogOut, Menu, User, X } from "lucide-react";
 import { FaUser } from "react-icons/fa";
+import { Avatar } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 export default function Header() {
     const { data: session } = useSession();
@@ -83,11 +85,24 @@ export default function Header() {
 
                 <div className="hidden md:flex items-center gap-2">
                     {session ? (
-                        <Link href="/dashboard">
-                            <Button variant="outline" size="default">
-                                Dashboard
-                            </Button>
-                        </Link>
+                        <DropdownMenu
+                            trigger={
+                                <div className="flex items-center gap-2 cursor-pointer">
+                                    <Avatar src={session.user?.image} />
+                                    <span className="hidden md:inline">{session.user?.name}</span>
+                                </div>
+                            }
+                        >
+                            <DropdownMenuItem href="/dashboard" icon={User}>
+                                Tableau de bord
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => signOut({ callbackUrl: "/" })}
+                                icon={LogOut}
+                            >
+                                Déconnexion
+                            </DropdownMenuItem>
+                        </DropdownMenu>
                     ) : (
                         <Link href="/auth/login">
                             <Button size="default" className="bg-gradient-to-r from-blue-500 to-red-500 text-white hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300 flex items-center gap-2 text-center">
@@ -149,11 +164,27 @@ export default function Header() {
 
                         <div className="pt-4 border-t border-gray-200 dark:border-gray-800">
                             {session ? (
-                                <Link href="/dashboard" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                                    <Button variant="outline" className="w-full">
-                                        Dashboard
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex items-center gap-2 px-3 py-2">
+                                        <Avatar src={session.user?.image} size="sm" />
+                                        <span>{session.user?.name}</span>
+                                    </div>
+                                    <Link href="/dashboard" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                                        <Button variant="outline" className="w-full">
+                                            Dashboard
+                                        </Button>
+                                    </Link>
+                                    <Button
+                                        variant="outline"
+                                        className="w-full"
+                                        onClick={() => {
+                                            signOut({ callbackUrl: "/" });
+                                            setMobileMenuOpen(false);
+                                        }}
+                                    >
+                                        Déconnexion
                                     </Button>
-                                </Link>
+                                </div>
                             ) : (
                                 <Link href="/auth/login" className="w-full" onClick={() => setMobileMenuOpen(false)}>
                                     <Button className="w-full bg-gradient-to-r from-blue-500 to-red-500 text-white hover:shadow-neon hover:shadow-[0_0_10px_#3b82f6,0_0_20px_#ef4444] transition-all duration-300 flex items-center gap-2 text-center">
@@ -164,8 +195,9 @@ export default function Header() {
                             )}
                         </div>
                     </div>
-                </div>
-            )}
-        </header>
+                </div >
+            )
+            }
+        </header >
     );
 }

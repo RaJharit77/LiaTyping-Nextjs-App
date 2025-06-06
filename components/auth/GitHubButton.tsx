@@ -8,7 +8,7 @@ export function GitHubButton() {
     return (
         <Button
             variant="outline"
-            onClick={() => signIn("github")}
+            onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
             className="w-full"
         >
             <Icons.gitHub className="mr-2 h-4 w-4" />
